@@ -1,0 +1,59 @@
+
+# 日志配置
+logging:
+  level:
+    # 注意注意注意 一定要修改成自己的包名
+    # 如果你只需要输出info，可以不用修改成自己的包名，但是如果为其他级别，
+    # 比如debug必修改成自己的包名才会生效
+    com.concise.demo: debug
+  file:
+    path: /mnt/logs/springboot-demo-kafka
+
+spring:
+  kafka:
+    # # 用逗号分隔的主机:端口对列表，用于建立到Kafka群集的初始连接。覆盖全局连接设置属性
+    bootstrap-servers: kafka.server.com:9092
+    producer:
+      # key, value序列化类
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      #  写入失败时，重试次数。当leader节点失效，一个repli节点会替代成为leader节点，此时可能出现写入失败，
+      retries: 10
+      # procedure要求leader在考虑完成请求之前收到的确认数，用于控制发送记录在服务端的持久化，其值可以为如下：
+      # 1. acks = 0 如果设置为零，则生产者将不会等待来自服务器的任何确认，该记录将立即添加到套接字缓冲区并视为已发送。在这种情况下，无法保证服务器已收到记录，
+      # 并且重试配置将不会生效（因为客户端通常不会知道任何故障），为每条记录返回的偏移量始终设置为-1。
+      # 2. acks = 1 这意味着leader会将记录写入其本地日志，但无需等待所有副本服务器的完全确认即可做出回应，在这种情况下，
+      # 如果leader在确认记录后立即失败，但在将数据复制到所有的副本服务器之前，则记录将会丢失。
+      # 3. acks = all 这意味着leader将等待完整的同步副本集以确认记录，这保证了只要至少一个同步副本服务器仍然存活，记录
+      # 就不会丢失，这是最强有力的保证，这相当于acks = -1的设置。
+      #可以设置的值为：all, -1, 0, 1
+      acks: all
+      properties:
+        # 等待时间
+        linger.ms: 1
+      # 默认批量大小。较小的批处理大小将使批处理不太常见，并可能降低吞吐量（批处理大小为零将完全禁用批处理）
+      batch-size: 16385
+      # 生产者可用于缓冲等待发送到服务器的记录的总内存大小
+      buffer-memory: 33554432
+    consumer:
+      group-id: consumer-group
+      auto-commit-interval: 1S
+      # 重置消费者的 offset, earliest: 最早的, latest: 最新的
+      # 消费者组没换 且 offset没有失效 = auto-offset-reset 不会生效
+      auto-offset-reset: earliest
+      # consumer消费消息之后不需要手动提交，consumer客户端会自动提交已经消费的消息的offset。
+      # enable-auto-commit: true
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+rocketmq:
+  name-server: rocketmq.server.com:39876
+  producer:
+    # 消息最大长度 默认 1024 * 4 (4M)
+    maxMessageSize: 4096
+    # 发送消息失败重试次数，默认2
+    retryTimesWhenSendFailed: 2
+    group: PRODUCE_APPNAME
+server:
+  port: 9090

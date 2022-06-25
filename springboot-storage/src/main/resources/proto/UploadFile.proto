@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.demo.sdk";
+option java_outer_classname = "UploadFileProto";
+option objc_class_prefix = "HLW";
+
+package demo;
+
+// 上传文件
+service UploadFile {
+  // 以客户端流的形式发送数据 (给服务端发送数据)
+  rpc upload (stream UploadRequest) returns (UploadResponse){}
+  rpc uploadNotStream (UploadRequest) returns (UploadResponse){}
+}
+
+message UploadRequest {
+  repeated UploadDataRequest data = 1;
+}
+message UploadDataRequest {
+  // base64
+  bytes image = 1;
+}
+
+// The response message
+message UploadResponse  {
+  bool success = 1;
+}
+

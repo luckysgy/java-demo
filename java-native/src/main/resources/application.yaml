@@ -1,0 +1,24 @@
+server:
+  port: 19000
+
+# 日志配置
+logging:
+  level:
+    # 注意注意注意 一定要修改成自己的包名
+    # 如果你只需要输出info，可以不用修改成自己的包名，但是如果为其他级别，
+    # 比如debug必修改成自己的包名才会生效
+    com.concise: debug
+  file:
+    path: logs
+
+grpc:
+  server:
+    port: 55001
+    max-inbound-message-size: -1
+  client:
+    javacppDemoService:
+      # 传输类型，默认是ssl
+      negotiationType: PLAINTEXT
+      address: static://127.0.0.1:55001
+    GLOBAL:
+      max-inbound-message-size: -1

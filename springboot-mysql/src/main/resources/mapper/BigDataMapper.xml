@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.concise.demo.datasource.mysql_big_data.BigDataMapper">
+    <resultMap id="BigDataResult" type="com.concise.demo.datasource.mysql_big_data.BigDataPO">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="user_id" jdbcType="BIGINT" property="userId" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+        <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+        <result column="id_code" jdbcType="VARCHAR" property="idCode" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="last_login" jdbcType="BIGINT" property="lastLogin" />
+        <result column="sex" jdbcType="TINYINT" property="sex" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="delete_flag" jdbcType="CHAR" property="deleteFlag" />
+        <result column="create_time" jdbcType="BIGINT" property="createTime" />
+        <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    </resultMap>
+
+    <sql id="selectUserVo">
+        bd.id, bd.user_id, bd.username, bd.password, bd.email, bd.nickname, bd.avatar_url, bd.id_code, bd.phone, bd.last_login, bd.sex, bd.status, bd.delete_flag, bd.create_time, bd.update_time
+    </sql>
+
+<!--    <select id="selectUserList" parameterType="com.ums.system.core.model.po.SysUserPO" resultMap="SysUserResult">-->
+<!--        select bd.id, bd.tenant_ids, bd.real_name, bd.nick_name, bd.user_name, bd.email, bd.avatar, bd.phone, bd.password, bd.sex, bd.status, bd.del_flag, bd.login_ip, bd.login_date, bd.create_by, bd.create_time, bd.remark,-->
+<!--        d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status-->
+<!--        from sys_user u-->
+<!--        INNER JOIN sys_user_dept_rel ud ON bd.id = ud.user_id-->
+<!--        left join sys_dept d on d.dept_id = ud.dept_id-->
+<!--        where bd.del_flag = '0'-->
+<!--        <if test="userName != null and userName != ''">-->
+<!--            AND bd.user_name like concat('%', #{userName}, '%')-->
+<!--        </if>-->
+<!--        <if test="status != null and status != ''">-->
+<!--            AND bd.status = #{status}-->
+<!--        </if>-->
+<!--        <if test="phone != null and phone != ''">-->
+<!--            AND bd.phone like concat('%', #{phone}, '%')-->
+<!--        </if>-->
+<!--        <if test="params.beginTime != null and params.beginTime != ''">&lt;!&ndash; 开始时间检索 &ndash;&gt;-->
+<!--            AND date_format(bd.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')-->
+<!--        </if>-->
+<!--        <if test="params.endTime != null and params.endTime != ''">&lt;!&ndash; 结束时间检索 &ndash;&gt;-->
+<!--            AND date_format(bd.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')-->
+<!--        </if>-->
+<!--        &lt;!&ndash;    <if test="deptId != null and deptId != 0">&ndash;&gt;-->
+<!--        &lt;!&ndash;      AND (ud.dept_id = #{deptId} OR ud.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))&ndash;&gt;-->
+<!--        &lt;!&ndash;    </if>&ndash;&gt;-->
+<!--        &lt;!&ndash; 数据范围过滤 &ndash;&gt;-->
+<!--        &lt;!&ndash; ${params.dataScope}&ndash;&gt;-->
+<!--    </select>-->
+
+<!--    <select id="selectUserDept" parameterType="Long" resultType="com.ums.system.core.model.po.SysDeptPO">-->
+<!--        select * from sys_dept where dept_id IN ( select dept_id from sys_user_dept_rel where user_id = #{userId} )-->
+<!--    </select>-->
+
+<!--    <select id="selectUserByUsername" parameterType="String" resultMap="SysUserResult">-->
+<!--        select-->
+<!--        <include refid="selectUserVo"/>,-->
+<!--        <if test="userName != null and userName != 'admin'">-->
+<!--            <include refid="selectDeptVo"/>,-->
+<!--        </if>-->
+<!--        <include refid="selectRoleVo"/>-->
+
+<!--        from sys_user u-->
+<!--        <if test="userName != null and userName != 'admin'">-->
+<!--            INNER JOIN sys_user_dept_rel ud ON bd.id = ud.user_id-->
+<!--            left join sys_dept d on ud.dept_id = d.dept_id-->
+<!--        </if>-->
+<!--        left join sys_user_role_rel ur on bd.id = ur.user_id-->
+<!--        left join sys_role r on r.id = ur.user_id-->
+<!--        where bd.user_name = #{userName}-->
+<!--    </select>-->
+
+<!--    <select id="selectUserById" parameterType="Long" resultMap="SysUserResult">-->
+<!--        select-->
+<!--        <include refid="selectUserVo"/>,-->
+<!--        <if test="id != null and id != 1">-->
+<!--            <include refid="selectDeptVo"/>,-->
+<!--        </if>-->
+<!--        <include refid="selectRoleVo"/>-->
+
+<!--        from sys_user u-->
+<!--        <if test="id != null and id != 1">-->
+<!--            INNER JOIN sys_user_dept_rel ud ON bd.id = ud.user_id-->
+<!--            left join sys_dept d on ud.dept_id = d.dept_id-->
+<!--        </if>-->
+<!--        left join sys_user_role_rel ur on bd.id = ur.user_id-->
+<!--        left join sys_role r on r.id = ur.user_id-->
+<!--        where bd.id = #{id}-->
+<!--    </select>-->
+
+    <insert id="batchInsertBigData" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into big_data (
+            id, user_id, username, password, email, nickname, avatar_url, id_code,
+            home_address, phone, last_login, sex, status, delete_flag, create_time, update_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.id}, #{item.userId}, #{item.username}, #{item.password}, #{item.email}, #{item.nickname},  #{item.avatarUrl}, #{item.idCode},
+                #{item.homeAddress}, #{item.phone}, #{item.lastLogin}, #{item.sex}, #{item.status}, #{item.deleteFlag}, #{item.createTime}, #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+</mapper>

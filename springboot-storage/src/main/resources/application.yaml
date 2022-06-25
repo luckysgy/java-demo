@@ -1,0 +1,54 @@
+grpc:
+  server:
+    port: 56089
+    max-inbound-message-size: 150MB
+  client:
+    uploadFile:
+      # 传输类型，默认是ssl
+      negotiationType: PLAINTEXT
+      address: static://127.0.0.1:56080
+    GLOBAL:
+      max-inbound-message-size: 150MB
+
+iniEnvFilePath: /project/env.ini
+
+# 日志配置
+logging:
+  level:
+    # 注意注意注意 一定要修改成自己的包名
+    # 如果你只需要输出info，可以不用修改成自己的包名，但是如果为其他级别，
+    # 比如debug必修改成自己的包名才会生效
+    com.concise.demo: debug
+  file:
+    path: /mnt/logs/springboot-demo-storage
+
+# 文件存储配置
+storageServer:
+  enable: true
+  # 如果没有type所对应的依赖(oss/minio), 是不会生效的
+  type: minio
+  # 是否初始化桶
+  isInitBucket: false
+  url:
+    # 是否通过nginx等第三方软件代理文件访问的url, 如果使能代理路径前缀为 internal / external
+    proxy: false
+    # url过期时间单位是s,用于具有时效性的链接
+    expiryTime: 60
+    # 内网url(局域网  Local Area Network) http://127.0.0.1
+    internal: ${STORAGE_SERVER_URL_INTERNAL}
+    # 外网(广域网 Wide Area Network) url http://47.78.12.56
+    # 这里以 192.168.5.248 当做外网测试
+    external: ${STORAGE_SERVER_URL_EXTERNAL}
+  minio:
+    accessKey: ${STORAGE_SERVER_MINIO_ACCESS_KEY}
+    secretKey: ${STORAGE_SERVER_MINIO_SECRET_KEY}
+    bucketName: ${STORAGE_SERVER_MINIO_BUCKET_NAME}
+    endpoint: ${STORAGE_SERVER_MINIO_ENDPOINT}
+  oss:
+    secretAccessKey: ${STORAGE_SERVER_OSS_SECRET_ACCESS_KEY}
+    accessKeyId: ${STORAGE_SERVER_OSS_ACCESS_KEY_ID}
+    endpoint: ${STORAGE_SERVER_OSS_ENDPOINT}
+    bucketName: ${STORAGE_SERVER_OSS_BUCKET_NAME}
+spring:
+  main:
+    allow-bean-definition-overriding: true

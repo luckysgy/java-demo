@@ -1,0 +1,19 @@
+
+grpc:
+  server:
+    port: 58080
+    max-inbound-message-size: 50MB
+    enable-keep-alive: true
+    keep-alive-time: 2
+    keep-alive-timeout: 2
+# 日志配置
+logging:
+  level:
+    # 注意注意注意 一定要修改成自己的包名
+    # 如果你只需要输出info，可以不用修改成自己的包名，但是如果为其他级别，
+    # 比如debug必修改成自己的包名才会生效
+    com.concise.demo: debug
+  file:
+    path: /mnt/logs/springboot-demo-grpc-server
+server:
+  port: 18080

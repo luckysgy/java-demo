@@ -1,0 +1,55 @@
+
+rocketmq:
+  name-server: 192.168.190.70:39876
+  producer:
+    # 如果不写组名, rocketmqTemplate不会初始化
+    group: PRODUCER_APPNAME
+# 日志配置
+logging:
+  level:
+    # 注意注意注意 一定要修改成自己的包名
+    # 如果你只需要输出info，可以不用修改成自己的包名，但是如果为其他级别，
+    # 比如debug必修改成自己的包名才会生效
+    com.concise.demo: debug
+  file:
+    path: /mnt/logs/springboot-demo-rocketmq
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: mq
+  kafka:
+    bootstrap-servers: 192.168.137.132:9092
+    producer:
+      # key, value序列化类
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      retries: 10
+      acks: all
+      properties:
+        # 等待时间
+        linger.ms: 1
+      # 批次大小
+      batch-size: 16385
+      # RecordAccumulator 缓冲区大小
+      buffer-memory: 33554432
+    consumer:
+      group-id: consumer-group
+      auto-commit-interval: 1S
+      auto-offset-reset: earliest
+      # consumer消费消息之后不需要手动提交，consumer客户端会自动提交已经消费的消息的offset。
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+mq:
+  enableMq: kafka,rocketmq
+  data:
+    emailMessage:
+      kafka:
+        enable: false
+        topic: my_test
+        consumeGroup: CONSUME_TEST_GROUP
+      rocketmq:
+        enable: true
+        topic: my_test2
+        consumeGroup: CONSUME_TEST2_GROUP

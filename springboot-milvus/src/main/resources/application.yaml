@@ -1,0 +1,15 @@
+milvus:
+  host: 192.168.190.70
+  port: 19530
+  vectorDim: 2048
+  topK: 5
+
+# 日志配置
+logging:
+  level:
+    # 注意注意注意 一定要修改成自己的包名
+    # 如果你只需要输出info，可以不用修改成自己的包名，但是如果为其他级别，
+    # 比如debug必修改成自己的包名才会生效
+    com.concise.demo: debug
+  file:
+    path: /mnt/logs/springboot-demo-milvus

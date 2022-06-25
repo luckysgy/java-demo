@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package demo;
+option java_multiple_files = true;
+option java_package = "com.demo.sdk";
+option java_outer_classname = "DemoProto";
+option objc_class_prefix = "HLW";
+
+service JavacppDemoService {
+  // 以服务端流的形式发送数据 (给客户端发送数据)
+  rpc findDemo (FindDemoRequest) returns (stream FindDemoResponse){}
+}
+
+message FindDemoResponse {
+  string message = 1;
+  bytes image = 2;
+}
+
+message FindDemoRequest {
+  string message = 1;
+}

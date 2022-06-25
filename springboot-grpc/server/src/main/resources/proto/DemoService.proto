@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package demo;
+option java_multiple_files = true;
+option java_package = "com.demo.sdk";
+option java_outer_classname = "DemoProto";
+option objc_class_prefix = "HLW";
+
+// The device service definition.
+service DemoService {
+  // Sends a message
+  rpc insertDemo (DemoRequest) returns (InsertDemoResponse){}
+  // 以服务端流的形式发送数据 (给客户端发送数据)
+  rpc findDemo (FindDemoRequest) returns (stream FindDemoResponse){}
+  // 以客户端流的形式发送数据 (给服务端发送数据)
+  rpc updateDemo (stream UpdateDemoRequest) returns (UpdateDemoResponse){}
+  // 双向流
+  rpc bilateralStream (stream BilateralStreamRequest) returns (stream BilateralStreamResponse){}
+}
+
+message BilateralStreamRequest {
+  string clientMessage = 1;
+}
+
+message BilateralStreamResponse {
+  string serverMessage = 1;
+}
+
+message FindDemoResponse {
+  string message = 1;
+  bytes image = 2;
+}
+// The request message .
+message conditionsRequest {
+  string id = 1;
+}
+message DemoRequest {
+  string id=1;
+  string serialNum=2;
+  string userNum=3;
+  int32  status=4;
+  int32  type=5;
+  string message=6;
+  string createTime=7;
+  string updateTime=8;
+}
+message FindDemoRequest {
+  string message = 1;
+}
+
+message UpdateDemoRequest {
+  string message = 1;
+}
+message UpdateDemoResponse  {
+  bool message = 1;
+}
+
+// The response message
+message InsertDemoResponse  {
+  bool message = 1;
+}
+
