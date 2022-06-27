@@ -1,4 +1,40 @@
-# 拉取components子模块
+# java-demo模块说明
+
+- springboot-event: springboot事件例子
+
+- springboot-hik: 海康例子
+
+- springboot-kafka
+
+- springboot-lock: 分布式锁
+
+- springboot-milvus: 向量检索引擎
+
+- springboot-mqtt: mqtt消息队列
+
+- springboot-mysql: mysql消息队列
+
+- springboot-rabbitmq: rabbitmq消息队列
+
+- springboot-redis: 缓存
+
+- springboot-rocketmq: rocketmq消息队列
+
+- springboot-storage: 存储服务集成了oss / minio
+
+- springboot-websocket: websocket通信
+
+- mapstruct: mapstruct相关例子
+
+- java-native: java调用c++例子 (jni)
+
+- springboot-grpc: grpc通信
+  
+  
+
+# git相关知识
+
+## 拉取components子模块
 
 ```text
 // 初始化本地子项目配置
@@ -11,7 +47,7 @@ git submodule update
 组合命令
 `git submodule update --init --recursive`
 
-# 添加子模块
+## 添加子模块
 
 先进入父仓库目录下，然后执行命令：
 
@@ -28,7 +64,7 @@ git submodule add <仓库地址> <本地路径>
     url = 仓库地址
 ```
 
-# 更新子仓库
+## 更新子仓库
 
 更新已存在的仓库代码
 
@@ -42,7 +78,7 @@ git submodule foreach git pull origin master
 git submodule update
 ```
 
-# 删除子模块
+## 删除子模块
 
 1. git rm --cached [path]
    根据路径删除子模块的记录
